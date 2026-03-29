@@ -42,15 +42,11 @@
         <option value="JAP">JAP</option>
         <option value="MOTOBATT">MOTOBATT</option>
         <option value="QS">QS</option>
-        <option value="KRP">KRP</option>
-        <option value="SOLANA">SOLANA</option>
-        <option value="JB">JB</option>
-        <option value="KAYABA">KAYABA</option>
         <option value="MPOWER">MPOWER</option>
     </select>
 
     <label>2. Tipe Aki:</label>
-    <input list="tipe-list" id="tipe" placeholder="Contoh: NS40, GTZ5S">
+    <input list="tipe-list" id="tipe" placeholder="NS40, GTZ5S, dll">
     <datalist id="tipe-list">
         <option value="GTZ5S"> <option value="YTZ5S"> <option value="GTZ6V"> <option value="YTZ6V"> 
         <option value="GTZ7S"> <option value="YTZ7S"> <option value="GM5Z"> <option value="YB5L-B">
@@ -80,6 +76,14 @@
     document.getElementById('harga').addEventListener('input', update);
     document.getElementById('pot').addEventListener('input', update);
 
+    // FUNGSI BIAR TEKS OTOMATIS DI TENGAH (CENTER)
+    function center(text, width = 32) {
+        let textLen = text.length;
+        if (textLen >= width) return text;
+        let leftPad = Math.floor((width - textLen) / 2);
+        return " ".repeat(leftPad) + text;
+    }
+
     function cetak() {
         let tgl = new Date().toLocaleString('id-ID');
         let m = document.getElementById('merk').value;
@@ -90,25 +94,24 @@
 
         if (!m || !tp || h == 0) { alert("Data Belum Lengkap!"); return; }
 
-        // --- LOGIKA GARANSI ---
         let garansi = "3 BULAN";
         if (m === "GS ASTRA") garansi = "1 BULAN";
         else if (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) garansi = "12 BULAN";
 
-        // --- CUSTOM STRUK (EDIT DISINI GAMPANG) ---
+        // --- ATURAN NOTA (SUDAH AUTO-CENTER) ---
+        let garis = "--------------------------";
         
-        // Judul Outline (𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌)
-        let judul    = `      𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌      `; 
-        let subJudul = `    TUKAR TAMBAH ACCU    `; 
-        let garis    = `--------------------------`;
-        let penutup  = `      Terima Kasih!       `;
+        // Pakai fungsi center() biar presisi tengah
+        let judul    = center("𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌"); 
+        let subJudul = center("TUKAR TAMBAH ACCU"); 
+        let tglNota  = center(tgl);
+        let penutup  = center("Terima Kasih!");
 
-        // Susunan Struk
         let struk = 
             judul + "\n" + 
             subJudul + "\n" + 
             garis + "\n" + 
-            tgl + "\n" + 
+            tglNota + "\n" + 
             garis + "\n" + 
             `Merk   : ${m}\n` +
             `Tipe   : ${tp}\n` +
@@ -117,6 +120,7 @@
             garis + "\n" + 
             `TOTAL  : Rp ${total.toLocaleString('id-ID')}\n\n` +
             `GARANSI: ${garansi}\n` +
+            `Aki Bekas Kami Beli Tinggi\n` +
             garis + "\n" + 
             penutup + "\n" + 
             garis;
