@@ -3,41 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KASIR AKI AYAH - LENGKAP</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; padding: 15px; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; border-bottom: 2px solid #27ae60; padding-bottom: 10px; }
-        label { font-weight: bold; display: block; margin-top: 15px; color: #34495e; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #bdc3c7; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
-        .total-box { background: #ecf0f1; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border-left: 5px solid #27ae60; }
-        .total-text { font-size: 24px; font-weight: bold; color: #e74c3c; }
-        button { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; transition: 0.3s; }
-        button:active { background: #1e8449; transform: scale(0.98); }
+    <title>KASIR AKI PRO</title>
+    <style id="customStyle">
+        :root { --font-family: sans-serif; --font-size: 16px; }
+        body { font-family: var(--font-family); background: #f0f2f5; padding: 10px; margin: 0; font-size: var(--font-size); }
+        .card, .settings-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 450px; margin: auto; margin-bottom: 20px; }
+        h2 { text-align: center; color: #1a73e8; margin: 0 0 15px 0; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
+        label { display: block; margin-top: 12px; font-weight: bold; font-size: 0.9em; color: #333; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1em; }
+        .total-area { background: #fff3f3; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; border: 2px dashed #ff4d4d; }
+        .total-val { font-size: 1.5em; font-weight: bold; color: #d93025; }
+        button { width: 100%; padding: 16px; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; margin-top: 15px; cursor: pointer; transition: 0.2s; }
+        .btn-print { background: #1a73e8; color: white; }
+        .btn-settings { background: #607d8b; color: white; margin-top: 10px; font-size: 0.9em; }
+        .hidden { display: none; }
+        hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>STRUK TOKO AKI</h2>
+<div id="mainPage" class="card">
+    <h2 id="viewNamaToko">TOKO AKI AYAH</h2>
 
-    <label>1. Pilih Kode/Tipe Aki:</label>
-    <input list="tipe-list" id="tipeAki" placeholder="Ketik Kode (Misal: LN3, NS40, 5S...)">
-    <datalist id="tipe-list">
-        <option value="NS40"> <option value="NS40Z"> <option value="NS40ZL">
-        <option value="NS60"> <option value="NS60L"> <option value="NS60LS">
-        <option value="N50"> <option value="N50Z"> <option value="NS70">
-        <option value="N70"> <option value="N70Z"> <option value="N100"> <option value="N120">
-        <option value="DIN LN2 (60Ah)"> <option value="DIN LN3 (80Ah)">
-        <option value="DIN 55559"> <option value="DIN 58024"> <option value="DIN 60038">
-        <option value="GTZ5S / YTZ5S (5S)"> <option value="GTZ6V / YTZ6V (6V)">
-        <option value="GTZ7S / YTZ7S (7S)"> <option value="GM5Z / YB5L (5Z)">
-        <option value="MTX7A"> <option value="MTX9">
-    </datalist>
-
-    <label>2. Pilih Merk Aki:</label>
-    <select id="merkAki">
-        <option value="">-- Pilih Merk --</option>
+    <label>Merk Aki:</label>
+    <select id="merk">
+        <option value="">-- PILIH MERK --</option>
         <option value="AMARON">AMARON</option>
         <option value="GS ASTRA">GS ASTRA</option>
         <option value="YUASA">YUASA</option>
@@ -45,7 +35,7 @@
         <option value="FASTER">FASTER</option>
         <option value="SOLITE">SOLITE</option>
         <option value="MSB">MSB</option>
-        <option value="FB">FB (Furukawa)</option>
+        <option value="FB">FB</option>
         <option value="QS">QS</option>
         <option value="MOTOBATT">MOTOBATT</option>
         <option value="JAP">JAP</option>
@@ -57,64 +47,123 @@
         <option value="MPOWER">MPOWER</option>
     </select>
 
-    <label>3. Harga Aki (Rp):</label>
-    <input type="number" id="hargaAki" placeholder="Masukkan Harga Jual">
+    <label>Tipe/Kode Aki:</label>
+    <input list="tipe-list" id="tipe" placeholder="Ketik/Pilih Kode...">
+    <datalist id="tipe-list">
+        <option value="GTZ5L / YTZ5S (5S)"> <option value="GTZ6V (6V)"> <option value="GTZ7S (7S)"> <option value="GM5Z (5Z)">
+        <option value="NS40 / Z / ZL"> <option value="NS60 / L / LS"> <option value="N50 / Z"> <option value="NS70">
+        <option value="N70 / Z"> <option value="N100"> <option value="N120"> <option value="DIN LN2"> <option value="DIN LN3">
+    </datalist>
 
-    <label>4. Potongan Tukar Tambah (Rp):</label>
-    <input type="number" id="potongan" value="0">
+    <label>Garansi:</label>
+    <select id="garansi">
+        <option value="1 Bulan">1 Bulan</option>
+        <option value="3 Bulan">3 Bulan</option>
+        <option value="6 Bulan" selected>6 Bulan</option>
+        <option value="12 Bulan">12 Bulan</option>
+    </select>
 
-    <div class="total-box">
-        <span>TOTAL PEMBAYARAN:</span><br>
-        <span class="total-text" id="tampilTotal">Rp 0</span>
+    <label>Harga (Rp):</label>
+    <input type="number" id="harga" placeholder="0">
+
+    <label>Potongan TT (Rp):</label>
+    <input type="number" id="pot" value="0">
+
+    <div class="total-area">
+        <span id="totalDisplay" class="total-val">Rp 0</span>
     </div>
 
-    <button onclick="prosesCetak()">CETAK KE THERMER</button>
+    <button class="btn-print" onclick="cetak()">CETAK STRUK</button>
+    <button class="btn-settings" onclick="toggleSettings()">⚙️ SETELAN STRUK</button>
+</div>
+
+<div id="settingsPage" class="settings-card hidden">
+    <h3>⚙️ PENGATURAN CUSTOM</h3>
+    
+    <label>Nama Toko:</label>
+    <input type="text" id="cfgNama" value="TOKO AKI AYAH">
+
+    <label>Jenis Font (Mirip Thermer):</label>
+    <select id="cfgFont" onchange="applyStyle()">
+        <option value="sans-serif">Modern (Sans-Serif)</option>
+        <option value="serif">Klasik (Serif)</option>
+        <option value="monospace">Mesin Tik (Monospace)</option>
+        <option value="cursive">Tulis Tangan (Cursive)</option>
+    </select>
+
+    <label>Ukuran Font Aplikasi:</label>
+    <select id="cfgSize" onchange="applyStyle()">
+        <option value="14px">Kecil</option>
+        <option value="16px" selected>Sedang</option>
+        <option value="20px">Besar</option>
+    </select>
+
+    <label>Pesan Penutup Struk:</label>
+    <input type="text" id="cfgNote" value="Aki Bekas Kami Beli Tinggi">
+
+    <button class="btn-print" style="background:#2ecc71" onclick="saveSettings()">SIMPAN PERUBAHAN</button>
+    <button class="btn-settings" style="background:#e74c3c" onclick="toggleSettings()">KEMBALI</button>
 </div>
 
 <script>
-    function hitung() {
-        let h = document.getElementById('hargaAki').value || 0;
-        let p = document.getElementById('potongan').value || 0;
-        let total = parseInt(h) - parseInt(p);
-        document.getElementById('tampilTotal').innerText = "Rp " + total.toLocaleString('id-ID');
-        return total;
+    // Update Total Otomatis
+    function update() {
+        let h = document.getElementById('harga').value || 0;
+        let p = document.getElementById('pot').value || 0;
+        let t = parseInt(h) - parseInt(p);
+        document.getElementById('totalDisplay').innerText = "Rp " + t.toLocaleString('id-ID');
+    }
+    document.getElementById('harga').addEventListener('input', update);
+    document.getElementById('pot').addEventListener('input', update);
+
+    function toggleSettings() {
+        document.getElementById('mainPage').classList.toggle('hidden');
+        document.getElementById('settingsPage').classList.toggle('hidden');
     }
 
-    document.getElementById('hargaAki').addEventListener('input', hitung);
-    document.getElementById('potongan').addEventListener('input', hitung);
+    function applyStyle() {
+        let f = document.getElementById('cfgFont').value;
+        let s = document.getElementById('cfgSize').value;
+        document.documentElement.style.setProperty('--font-family', f);
+        document.documentElement.style.setProperty('--font-size', s);
+    }
 
-    function prosesCetak() {
-        let tipe = document.getElementById('tipeAki').value;
-        let merk = document.getElementById('merkAki').value;
-        let harga = document.getElementById('hargaAki').value || 0;
-        let pot = document.getElementById('potongan').value || 0;
-        let total = hitung();
+    function saveSettings() {
+        let nama = document.getElementById('cfgNama').value;
+        document.getElementById('viewNamaToko').innerText = nama;
+        alert("Setelan Disimpan!");
+        toggleSettings();
+    }
+
+    function cetak() {
         let tgl = new Date().toLocaleString('id-ID');
+        let m = document.getElementById('merk').value;
+        let tp = document.getElementById('tipe').value;
+        let g = document.getElementById('garansi').value;
+        let h = document.getElementById('harga').value || 0;
+        let p = document.getElementById('pot').value || 0;
+        let n = document.getElementById('cfgNama').value;
+        let note = document.getElementById('cfgNote').value;
+        let total = parseInt(h) - parseInt(p);
 
-        if(!tipe || !merk || harga == 0) {
-            alert("Lengkapi Tipe, Merk, dan Harga dulu Bos!");
-            return;
-        }
+        let struk = `${n}\n` +
+                    `--------------------------\n` +
+                    `${tgl}\n` +
+                    `--------------------------\n` +
+                    `Barang : ${m} ${tp}\n` +
+                    `Harga  : Rp ${parseInt(h).toLocaleString('id-ID')}\n` +
+                    `Pot.TT : -Rp ${parseInt(p).toLocaleString('id-ID')}\n` +
+                    `--------------------------\n` +
+                    `TOTAL  : Rp ${total.toLocaleString('id-ID')}\n\n` +
+                    `GARANSI: ${g}\n` +
+                    `${note}\n` +
+                    `--------------------------\n` +
+                    `Terima Kasih!`;
 
-        let teksStruk = `TOKO AKI AYAH\n` +
-                        `--------------------------\n` +
-                        `${tgl}\n` +
-                        `--------------------------\n` +
-                        `Barang: ${merk} ${tipe}\n` +
-                        `Harga : Rp ${parseInt(harga).toLocaleString('id-ID')}\n` +
-                        `Pot.TT: -Rp ${parseInt(pot).toLocaleString('id-ID')}\n` +
-                        `--------------------------\n` +
-                        `TOTAL : Rp ${total.toLocaleString('id-ID')}\n\n` +
-                        `GARANSI: 6 BULAN\n` +
-                        `Aki bekas kami beli tinggi\n` +
-                        `--------------------------\n` +
-                        `Terima Kasih!`;
-
-        // Share ke Thermer
-        if (navigator.share) {
-            navigator.share({ text: teksStruk });
+        if(navigator.share) {
+            navigator.share({ text: struk });
         } else {
-            alert("Buka file ini pakai Google Chrome di HP Ayah ya!");
+            alert("Gunakan Chrome ya!");
         }
     }
 </script>
