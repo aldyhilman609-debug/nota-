@@ -4,103 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KASIR TRIJAYA ACCU</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        body { 
-            font-family: 'Roboto', sans-serif; 
-            background: #f0f2f5; 
-            padding: 10px; 
-            margin: 0; 
-        }
+        body { font-family: 'Roboto', sans-serif; background: #f0f2f5; padding: 10px; margin: 0; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 450px; margin: auto; }
         
-        .card { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 15px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            max-width: 450px; 
-            margin: auto; 
-        }
+        /* TAMPILAN HEADER DI APLIKASI */
+        .header-box { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
+        .title-outline { font-family: 'Montserrat', sans-serif; font-size: 28px; color: white; -webkit-text-stroke: 1.5px #1a73e8; font-weight: 900; margin: 0; letter-spacing: 2px; }
+        .subtitle { font-size: 14px; font-weight: bold; color: #555; margin-top: 5px; letter-spacing: 1px; }
 
-        h2 { 
-            /* CUSTOM JUDUL TRIJAYA ACCU */
-            font-family: 'Montserrat', sans-serif;
-            text-align: center; /* Posisikan di tengah */
-            color: #1a73e8; /* Warna biru */
-            margin: 0 0 15px 0; 
-            border-bottom: 2px solid #1a73e8; /* Garis bawah biru */
-            padding-bottom: 10px; 
-            font-size: 24px; /* Ukuran font besar */
-            text-transform: uppercase; /* Huruf kapital semua */
-            letter-spacing: 1px; /* Jarak antar huruf sedikit renggang */
-        }
-
-        label { 
-            display: block; 
-            margin-top: 12px; 
-            font-weight: 700; 
-            font-size: 13px; 
-            color: #333; 
-        }
-
-        select, input { 
-            font-family: 'Roboto', sans-serif;
-            width: 100%; 
-            padding: 12px; 
-            margin-top: 5px; 
-            border: 2px solid #ddd; 
-            border-radius: 8px; 
-            box-sizing: border-box; 
-            font-size: 16px; 
-            background-color: #fff; 
-        }
-
-        .total-area { 
-            background: #fff3f3; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-top: 15px; 
-            text-align: center; 
-            border: 2px dashed #ff4d4d; 
-        }
-
-        .total-val { 
-            font-family: 'Montserrat', sans-serif;
-            font-size: 26px; 
-            font-weight: bold; 
-            color: #d93025; 
-        }
-
-        button { 
-            font-family: 'Montserrat', sans-serif;
-            width: 100%; 
-            padding: 16px; 
-            background: #1a73e8; 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            margin-top: 15px; 
-            cursor: pointer; 
-            letter-spacing: 1px;
-            transition: 0.2s;
-        }
-
-        button:active { 
-            background: #174ea6; 
-            transform: scale(0.98); 
-        }
+        label { display: block; margin-top: 12px; font-weight: 700; font-size: 13px; color: #333; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .total-area { background: #fff3f3; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; border: 2px dashed #ff4d4d; }
+        .total-val { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: bold; color: #d93025; }
+        button { width: 100%; padding: 16px; background: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 15px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>TRIJAYA ACCU</h2>
+    <div class="header-box">
+        <h2 class="title-outline">TRIJAYA ACCU</h2>
+        <div class="subtitle">TUKAR TAMBAH ACCU</div>
+    </div>
 
-    <label>1. Pilih Merk Aki:</label>
+    <label>1. Merk Aki:</label>
     <select id="merk">
         <option value="">-- PILIH MERK --</option>
         <option value="AMARON">AMARON</option>
@@ -109,10 +39,9 @@
         <option value="INCOE">INCOE</option>
         <option value="FASTER">FASTER</option>
         <option value="SOLITE">SOLITE</option>
-        <option value="MSB">MSB</option>
-        <option value="FB">FB (Furukawa)</option>
-        <option value="QS">QS</option>
         <option value="MOTOBATT">MOTOBATT</option>
+        <option value="FB">FB</option>
+        <option value="QS">QS</option>
         <option value="JAP">JAP</option>
         <option value="KRP">KRP</option>
         <option value="SOLANA">SOLANA</option>
@@ -122,29 +51,16 @@
         <option value="MPOWER">MPOWER</option>
     </select>
 
-    <label>2. Pilih Tipe/Kode Aki (Motor/Mobil):</label>
-    <input list="tipe-list" id="tipe" placeholder="Ketik/Pilih Kode Aki...">
+    <label>2. Kode Aki (Motor/Mobil):</label>
+    <input list="tipe-list" id="tipe" placeholder="Ketik Kode (LN3, 5S, N120...)">
     <datalist id="tipe-list">
-        <option value="GTZ5S / YTZ5S (5S)">
-        <option value="GTZ6V / YTZ6V (6V)">
-        <option value="GTZ7S / YTZ7S (7S)">
-        <option value="GM5Z / YB5L (5Z)">
-        <option value="MTX7A / MTX9">
-        <option value="12N10-3B">
-        <option value="NS40 / Z / ZL">
-        <option value="NS60 / L / LS">
-        <option value="N50 / Z / ZL">
-        <option value="NS70 / L">
-        <option value="N70 / Z / ZL">
-        <option value="N100">
-        <option value="N120">
-        <option value="DIN LN2 (60Ah)">
-        <option value="DIN LN3 (80Ah)">
-        <option value="DIN 55559 / 58024 / 60038">
-        <option value="NX110-5">
+        <option value="GTZ5S (5S)"> <option value="GTZ6V (6V)"> <option value="GTZ7S (7S)"> <option value="GM5Z (5Z)">
+        <option value="NS40 / Z / ZL"> <option value="NS60 / L / LS"> <option value="N50 / Z"> <option value="NS70 / L">
+        <option value="N70 / Z / ZL"> <option value="N100"> <option value="N120">
+        <option value="DIN LN2"> <option value="DIN LN3"> <option value="DIN 55559">
     </datalist>
 
-    <label>3. Pilih Masa Garansi:</label>
+    <label>3. Garansi:</label>
     <select id="garansi">
         <option value="1 Bulan">1 Bulan</option>
         <option value="3 Bulan">3 Bulan</option>
@@ -152,14 +68,13 @@
         <option value="12 Bulan">12 Bulan</option>
     </select>
 
-    <label>4. Harga Aki (Rp):</label>
-    <input type="number" id="harga" placeholder="Masukkan Harga Jual">
+    <label>4. Harga (Rp):</label>
+    <input type="number" id="harga" placeholder="0">
 
-    <label>5. Potongan Tukar Tambah (Rp):</label>
+    <label>5. Potongan TT (Rp):</label>
     <input type="number" id="pot" value="0">
 
     <div class="total-area">
-        <span style="font-size: 13px; color: #555;">TOTAL BAYAR:</span><br>
         <span class="total-val" id="totalDisplay">Rp 0</span>
     </div>
 
@@ -167,7 +82,6 @@
 </div>
 
 <script>
-    // Update Total Otomatis
     function update() {
         let h = document.getElementById('harga').value || 0;
         let p = document.getElementById('pot').value || 0;
@@ -186,12 +100,12 @@
         let p = document.getElementById('pot').value || 0;
         let total = parseInt(h) - parseInt(p);
 
-        if (!m || !tp || h == 0) {
-            alert("Lengkapi data Merk, Tipe, dan Harga dulu, Ayah!");
-            return;
-        }
-
-        let struk = `TRIJAYA ACCU\n` +
+        // TRIK HURUF OUTLINE (UNICODE DOUBLE STRUCK)
+        // Bentuknya: 𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌
+        let titleOutline = `𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌`;
+        
+        let struk = `${titleOutline}\n` +
+                    `  TUKAR TAMBAH ACCU  \n` +
                     `--------------------------\n` +
                     `${tgl}\n` +
                     `--------------------------\n` +
@@ -203,13 +117,13 @@
                     `GARANSI: ${g}\n` +
                     `Aki Bekas Kami Beli Tinggi\n` +
                     `--------------------------\n` +
-                    `Terima Kasih!\n` +
+                    `      Terima Kasih!       \n` +
                     `--------------------------`;
 
         if(navigator.share) {
             navigator.share({ text: struk });
         } else {
-            alert("Buka lewat Chrome di HP Ayah ya!");
+            alert("Buka lewat Chrome ya!");
         }
     }
 </script>
