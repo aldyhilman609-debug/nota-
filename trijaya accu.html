@@ -4,91 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KASIR TRIJAYA ACCU</title>
-    
     <style>
-        /* === BAGIAN CUSTOM GAMPANG (GANTI DISINI) === */
         :root {
-            --warna-utama: #333333;
-            --warna-aksen: #cf1322; /* Warna Merah Total */
-            --warna-bg: #f4f7f6;
-            --font-size-label: 14px;
-            --font-size-input: 16px;
-            --radius: 10px;
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text: #333;
+            --accent: #cf1322;
         }
-
-        /* === CSS TATA LETAK === */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: var(--warna-bg); 
-            padding: 15px; 
-            margin: 0; 
-        }
-
-        .card { 
-            background: white; 
-            padding: 20px; 
-            border-radius: var(--radius); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-            max-width: 400px; 
-            margin: auto; 
-        }
-
-        .header { 
-            text-align: center; 
-            margin-bottom: 20px; 
-            border-bottom: 2px solid var(--warna-utama); 
-            padding-bottom: 10px; 
-        }
-
-        h2 { margin: 0; color: var(--warna-utama); font-size: 22px; }
-        .sub { font-size: 12px; font-weight: bold; color: #666; margin-top: 5px; }
-
-        label { 
-            display: block; 
-            margin-top: 15px; 
-            font-weight: bold; 
-            font-size: var(--font-size-label); 
-        }
-
-        select, input { 
-            width: 100%; 
-            padding: 12px; 
-            margin-top: 5px; 
-            border: 1px solid #ccc; 
-            border-radius: var(--radius); 
-            box-sizing: border-box; 
-            font-size: var(--font-size-input); 
-        }
-
-        .total-box { 
-            background: #fff1f0; 
-            padding: 15px; 
-            border-radius: var(--radius); 
-            margin-top: 20px; 
-            text-align: center; 
-            border: 1px solid #ffccc7; 
-        }
-
-        .total-val { 
-            font-size: 26px; 
-            font-weight: bold; 
-            color: var(--warna-aksen); 
-        }
-
-        button { 
-            width: 100%; 
-            padding: 16px; 
-            background: var(--warna-utama); 
-            color: white; 
-            border: none; 
-            border-radius: var(--radius); 
-            font-size: 18px; 
-            font-weight: bold; 
-            margin-top: 20px; 
-            cursor: pointer; 
-        }
-
-        button:active { background: #000; transform: scale(0.98); }
+        body { font-family: sans-serif; background: var(--bg); padding: 15px; margin: 0; }
+        .card { background: var(--card-bg); padding: 20px; border-radius: 12px; max-width: 400px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 2px solid var(--text); padding-bottom: 10px; margin-bottom: 20px; }
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .total-box { background: #fff1f0; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #ffccc7; }
+        .total-val { font-size: 26px; font-weight: bold; color: var(--accent); }
+        button { width: 100%; padding: 16px; background: var(--text); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -112,23 +42,19 @@
         <option value="JAP">JAP</option>
         <option value="MOTOBATT">MOTOBATT</option>
         <option value="QS">QS</option>
-        <option value="MSB">MSB</option>
         <option value="KRP">KRP</option>
         <option value="SOLANA">SOLANA</option>
         <option value="JB">JB</option>
         <option value="KAYABA">KAYABA</option>
-        <option value="ITOBATT">ITOBATT</option>
         <option value="MPOWER">MPOWER</option>
     </select>
 
     <label>2. Tipe Aki:</label>
-    <input list="tipe-list" id="tipe" placeholder="NS40, GTZ5S, dll">
+    <input list="tipe-list" id="tipe" placeholder="Contoh: NS40, GTZ5S">
     <datalist id="tipe-list">
         <option value="GTZ5S"> <option value="YTZ5S"> <option value="GTZ6V"> <option value="YTZ6V"> 
         <option value="GTZ7S"> <option value="YTZ7S"> <option value="GM5Z"> <option value="YB5L-B">
-        <option value="MTX5"> <option value="MTX7A"> <option value="MTX9"> <option value="12N10-3B">
-        <option value="NS40"> <option value="NS40Z"> <option value="NS60"> <option value="N50"> 
-        <option value="NS70"> <option value="N70"> <option value="N100"> <option value="N120">
+        <option value="NS40"> <option value="NS60"> <option value="N50"> <option value="NS70"> <option value="N100">
     </datalist>
 
     <label>3. Harga Jual (Rp):</label>
@@ -162,38 +88,38 @@
         let p = document.getElementById('pot').value || 0;
         let total = parseInt(h) - parseInt(p);
 
-        if (!m || !tp || h == 0) {
-            alert("Isi data Merk, Tipe, dan Harga!");
-            return;
-        }
+        if (!m || !tp || h == 0) { alert("Data Belum Lengkap!"); return; }
 
-        // LOGIKA GARANSI FIX (1, 3, 12 BULAN)
-        let garansi = "3 BULAN"; // Default merk lain
-        if (m === "GS ASTRA") {
-            garansi = "1 BULAN";
-        } else if (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) {
-            garansi = "12 BULAN"; 
-        }
+        // --- LOGIKA GARANSI ---
+        let garansi = "3 BULAN";
+        if (m === "GS ASTRA") garansi = "1 BULAN";
+        else if (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) garansi = "12 BULAN";
 
-        // Judul Outline: 𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌
-        let titleOutline = `𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌`;
+        // --- CUSTOM STRUK (EDIT DISINI GAMPANG) ---
         
-        let struk = `      ${titleOutline}      \n` +
-                    `  TUKAR TAMBAH ACCU  \n` +
-                    `--------------------------\n` +
-                    `${tgl}\n` +
-                    `--------------------------\n` +
-                    `Merk   : ${m}\n` +
-                    `Tipe   : ${tp}\n` +
-                    `Harga  : Rp ${parseInt(h).toLocaleString('id-ID')}\n` +
-                    `Pot.TT : -Rp ${parseInt(p).toLocaleString('id-ID')}\n` +
-                    `--------------------------\n` +
-                    `TOTAL  : Rp ${total.toLocaleString('id-ID')}\n\n` +
-                    `GARANSI: ${garansi}\n` +
-                    `Aki Bekas Kami Beli Tinggi\n` +
-                    `--------------------------\n` +
-                    `      Terima Kasih!       \n` +
-                    `--------------------------`;
+        // Judul Outline (𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌)
+        let judul    = `      𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌      `; 
+        let subJudul = `    TUKAR TAMBAH ACCU    `; 
+        let garis    = `--------------------------`;
+        let penutup  = `      Terima Kasih!       `;
+
+        // Susunan Struk
+        let struk = 
+            judul + "\n" + 
+            subJudul + "\n" + 
+            garis + "\n" + 
+            tgl + "\n" + 
+            garis + "\n" + 
+            `Merk   : ${m}\n` +
+            `Tipe   : ${tp}\n` +
+            `Harga  : Rp ${parseInt(h).toLocaleString('id-ID')}\n` +
+            `Pot.TT : -Rp ${parseInt(p).toLocaleString('id-ID')}\n` +
+            garis + "\n" + 
+            `TOTAL  : Rp ${total.toLocaleString('id-ID')}\n\n` +
+            `GARANSI: ${garansi}\n` +
+            garis + "\n" + 
+            penutup + "\n" + 
+            garis;
 
         if(navigator.share) {
             navigator.share({ text: struk });
