@@ -5,14 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KASIR TRIJAYA ACCU</title>
     <style>
-        :root {
-            --bg: #f4f7f6;
-            --card-bg: #ffffff;
-            --text: #333;
-            --accent: #cf1322;
-        }
+        :root { --bg: #f4f7f6; --text: #333; --accent: #cf1322; }
         body { font-family: sans-serif; background: var(--bg); padding: 15px; margin: 0; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 12px; max-width: 400px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .card { background: white; padding: 20px; border-radius: 12px; max-width: 400px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .header { text-align: center; border-bottom: 2px solid var(--text); padding-bottom: 10px; margin-bottom: 20px; }
         label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; }
         select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
@@ -46,11 +41,13 @@
     </select>
 
     <label>2. Tipe Aki:</label>
-    <input list="tipe-list" id="tipe" placeholder="NS40, GTZ5S, dll">
+    <input list="tipe-list" id="tipe" placeholder="Contoh: NS40, GTZ5S">
     <datalist id="tipe-list">
         <option value="GTZ5S"> <option value="YTZ5S"> <option value="GTZ6V"> <option value="YTZ6V"> 
         <option value="GTZ7S"> <option value="YTZ7S"> <option value="GM5Z"> <option value="YB5L-B">
-        <option value="NS40"> <option value="NS60"> <option value="N50"> <option value="NS70"> <option value="N100">
+        <option value="MTX5"> <option value="MTX7A"> <option value="MTX9"> <option value="12N10-3B">
+        <option value="NS40"> <option value="NS40Z"> <option value="NS60"> <option value="N50"> 
+        <option value="NS70"> <option value="N70"> <option value="N100"> <option value="N120">
     </datalist>
 
     <label>3. Harga Jual (Rp):</label>
@@ -76,12 +73,20 @@
     document.getElementById('harga').addEventListener('input', update);
     document.getElementById('pot').addEventListener('input', update);
 
-    // FUNGSI BIAR TEKS OTOMATIS DI TENGAH (CENTER)
-    function center(text, width = 32) {
-        let textLen = text.length;
-        if (textLen >= width) return text;
-        let leftPad = Math.floor((width - textLen) / 2);
-        return " ".repeat(leftPad) + text;
+    // MESIN PENGATUR FORMAT
+    function format(text, width = 32) {
+        let isCenter = text.includes("<c>");
+        let isBold = text.includes("<b>");
+        let isUnderline = text.includes("<u>");
+        let cleanText = text.replace(/<c>|<b>|<u>/g, "");
+        if (isBold) cleanText = cleanText.toUpperCase();
+        let result = cleanText;
+        if (isCenter) {
+            let space = Math.floor((width - cleanText.length) / 2);
+            result = " ".repeat(Math.max(0, space)) + cleanText;
+        }
+        if (isUnderline) { result += "\n" + "_".repeat(cleanText.length); }
+        return result;
     }
 
     function cetak() {
@@ -94,36 +99,31 @@
 
         if (!m || !tp || h == 0) { alert("Data Belum Lengkap!"); return; }
 
-        let garansi = "3 BULAN";
-        if (m === "GS ASTRA") garansi = "1 BULAN";
-        else if (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) garansi = "12 BULAN";
+        let garansi = (m === "GS ASTRA") ? "1 BULAN" : 
+                      (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) ? "12 BULAN" : "3 BULAN";
 
-        // --- ATURAN NOTA (SUDAH AUTO-CENTER) ---
         let garis = "--------------------------";
         
-        // Pakai fungsi center() biar presisi tengah
-        let judul    = center("𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌"); 
-        let subJudul = center("TUKAR TAMBAH ACCU"); 
-        let tglNota  = center(tgl);
-        let penutup  = center("Terima Kasih!");
-
-        let struk = 
-            judul + "\n" + 
-            subJudul + "\n" + 
-            garis + "\n" + 
-            tglNota + "\n" + 
-            garis + "\n" + 
-            `Merk   : ${m}\n` +
-            `Tipe   : ${tp}\n` +
-            `Harga  : Rp ${parseInt(h).toLocaleString('id-ID')}\n` +
-            `Pot.TT : -Rp ${parseInt(p).toLocaleString('id-ID')}\n` +
-            garis + "\n" + 
-            `TOTAL  : Rp ${total.toLocaleString('id-ID')}\n\n` +
-            `GARANSI: ${garansi}\n` +
-            `Aki Bekas Kami Beli Tinggi\n` +
-            garis + "\n" + 
-            penutup + "\n" + 
-            garis;
+        // SUSUNAN STRUK FINAL
+        let struk = [
+            format("<c>T R I J A Y A  A C C U"), // Pakai spasi antar huruf agar terbaca printer
+            format("<c>TUKAR TAMBAH ACCU"),
+            format("<c>NO WA 821 4320 2129"), // Tambahan No WA Bos
+            garis,
+            format("<c>" + tgl),
+            garis,
+            "Merk   : " + m,
+            "Tipe   : " + tp,
+            "Harga  : Rp " + parseInt(h).toLocaleString('id-ID'),
+            "Pot.TT : -Rp " + parseInt(p).toLocaleString('id-ID'),
+            garis,
+            format("<b>TOTAL  : Rp " + total.toLocaleString('id-ID')),
+            "",
+            "GARANSI: " + garansi,
+            garis,
+            format("<c>Terima Kasih!"),
+            garis
+        ].join("\n");
 
         if(navigator.share) {
             navigator.share({ text: struk });
