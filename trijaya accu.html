@@ -4,18 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KASIR TRIJAYA ACCU</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Roboto', sans-serif; background: #f4f7f6; padding: 15px; margin: 0; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        h2 { margin: 0; color: #333; font-size: 22px; letter-spacing: 1px; }
+        /* === BAGIAN CUSTOM GAMPANG (GANTI DISINI) === */
+        :root {
+            --warna-utama: #333333;
+            --warna-aksen: #cf1322; /* Warna Merah Total */
+            --warna-bg: #f4f7f6;
+            --font-size-label: 14px;
+            --font-size-input: 16px;
+            --radius: 10px;
+        }
+
+        /* === CSS TATA LETAK === */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--warna-bg); 
+            padding: 15px; 
+            margin: 0; 
+        }
+
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: var(--radius); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            max-width: 400px; 
+            margin: auto; 
+        }
+
+        .header { 
+            text-align: center; 
+            margin-bottom: 20px; 
+            border-bottom: 2px solid var(--warna-utama); 
+            padding-bottom: 10px; 
+        }
+
+        h2 { margin: 0; color: var(--warna-utama); font-size: 22px; }
         .sub { font-size: 12px; font-weight: bold; color: #666; margin-top: 5px; }
-        label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; }
-        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; font-family: inherit; }
-        .total-box { background: #fff1f0; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #ffccc7; }
-        .total-val { font-size: 26px; font-weight: bold; color: #cf1322; }
-        button { width: 100%; padding: 16px; background: #333; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+
+        label { 
+            display: block; 
+            margin-top: 15px; 
+            font-weight: bold; 
+            font-size: var(--font-size-label); 
+        }
+
+        select, input { 
+            width: 100%; 
+            padding: 12px; 
+            margin-top: 5px; 
+            border: 1px solid #ccc; 
+            border-radius: var(--radius); 
+            box-sizing: border-box; 
+            font-size: var(--font-size-input); 
+        }
+
+        .total-box { 
+            background: #fff1f0; 
+            padding: 15px; 
+            border-radius: var(--radius); 
+            margin-top: 20px; 
+            text-align: center; 
+            border: 1px solid #ffccc7; 
+        }
+
+        .total-val { 
+            font-size: 26px; 
+            font-weight: bold; 
+            color: var(--warna-aksen); 
+        }
+
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: var(--warna-utama); 
+            color: white; 
+            border: none; 
+            border-radius: var(--radius); 
+            font-size: 18px; 
+            font-weight: bold; 
+            margin-top: 20px; 
+            cursor: pointer; 
+        }
+
         button:active { background: #000; transform: scale(0.98); }
     </style>
 </head>
@@ -36,11 +108,11 @@
         <option value="INCOE">INCOE</option>
         <option value="FASTER">FASTER</option>
         <option value="SOLITE">SOLITE</option>
-        <option value="MSB">MSB</option>
         <option value="FB">FB (FURUKAWA)</option>
-        <option value="QS">QS</option>
-        <option value="MOTOBATT">MOTOBATT</option>
         <option value="JAP">JAP</option>
+        <option value="MOTOBATT">MOTOBATT</option>
+        <option value="QS">QS</option>
+        <option value="MSB">MSB</option>
         <option value="KRP">KRP</option>
         <option value="SOLANA">SOLANA</option>
         <option value="JB">JB</option>
@@ -49,15 +121,17 @@
         <option value="MPOWER">MPOWER</option>
     </select>
 
-    <label>2. Kode Aki (Tanpa LN/DIN):</label>
-    <input list="tipe-list" id="tipe" placeholder="Contoh: NS40, 5S, N70...">
+    <label>2. Tipe Aki:</label>
+    <input list="tipe-list" id="tipe" placeholder="NS40, GTZ5S, dll">
     <datalist id="tipe-list">
-        <option value="GTZ5S (5S)"> <option value="GTZ6V (6V)"> <option value="GTZ7S (7S)"> <option value="GM5Z (5Z)">
-        <option value="NS40 / Z / ZL"> <option value="NS60 / L / LS"> <option value="N50 / Z"> <option value="NS70 / L">
-        <option value="N70 / Z / ZL"> <option value="N100"> <option value="N120"> <option value="MTX7A"> <option value="MTX9">
+        <option value="GTZ5S"> <option value="YTZ5S"> <option value="GTZ6V"> <option value="YTZ6V"> 
+        <option value="GTZ7S"> <option value="YTZ7S"> <option value="GM5Z"> <option value="YB5L-B">
+        <option value="MTX5"> <option value="MTX7A"> <option value="MTX9"> <option value="12N10-3B">
+        <option value="NS40"> <option value="NS40Z"> <option value="NS60"> <option value="N50"> 
+        <option value="NS70"> <option value="N70"> <option value="N100"> <option value="N120">
     </datalist>
 
-    <label>3. Harga Aki (Rp):</label>
+    <label>3. Harga Jual (Rp):</label>
     <input type="number" id="harga" placeholder="0">
 
     <label>4. Potongan TT (Rp):</label>
@@ -89,19 +163,19 @@
         let total = parseInt(h) - parseInt(p);
 
         if (!m || !tp || h == 0) {
-            alert("Lengkapi data dulu ya!");
+            alert("Isi data Merk, Tipe, dan Harga!");
             return;
         }
 
-        // LOGIKA GARANSI OTOMATIS
-        let garansi = "3 BULAN"; // Default
+        // LOGIKA GARANSI FIX (1, 3, 12 BULAN)
+        let garansi = "3 BULAN"; // Default merk lain
         if (m === "GS ASTRA") {
             garansi = "1 BULAN";
-        } else if (m === "FB" || m === "SOLITE" || m === "JAP") {
-            garansi = "TERTULIS"; 
+        } else if (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) {
+            garansi = "12 BULAN"; 
         }
 
-        // Judul Outline untuk Nota: 𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌
+        // Judul Outline: 𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌
         let titleOutline = `𝕋ℝ𝕀𝕁𝔸𝕐𝔸 𝔸ℂℂ𝕌`;
         
         let struk = `      ${titleOutline}      \n` +
@@ -124,7 +198,7 @@
         if(navigator.share) {
             navigator.share({ text: struk });
         } else {
-            alert("Gunakan Chrome di HP Ayah!");
+            alert("Buka lewat Chrome ya!");
         }
     }
 </script>
