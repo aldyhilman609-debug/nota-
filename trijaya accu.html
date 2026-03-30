@@ -13,54 +13,68 @@
         select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         .total-box { background: #fff1f0; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #ffccc7; }
         .total-val { font-size: 26px; font-weight: bold; color: var(--accent); }
-        button { width: 100%; padding: 16px; background: #333; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; }
-        
-        /* CSS UNTUK TAMPILAN PRINT (RAHASIA BIAR RAPI) */
-        #print-area { display: none; font-family: 'Courier New', Courier, monospace; width: 58mm; font-size: 12px; line-height: 1.2; }
+        button { width: 100%; padding: 16px; background: var(--text); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+
+        /* AREA PRINT (RAHASIA BIAR GAK BERANTAKAN) */
+        #print-area { display: none; }
         @media print {
             body * { visibility: hidden; }
             #print-area, #print-area * { visibility: visible; }
-            #print-area { display: block; position: absolute; left: 0; top: 0; width: 100%; }
+            #print-area { 
+                display: block; 
+                position: absolute; 
+                left: 0; top: 0; 
+                width: 58mm; /* Ukuran Kertas Thermal */
+                font-family: monospace;
+                font-size: 12px;
+            }
+            .no-print { display: none; }
         }
     </style>
 </head>
 <body>
 
-<div class="card">
+<div class="card no-print">
     <div class="header">
         <h2>TRIJAYA ACCU</h2>
-        <div class="sub">TUKAR TAMBAH ACCU</div>
+        <div style="font-size:12px; font-weight:bold;">TUKAR TAMBAH ACCU</div>
     </div>
 
-    <label>1. Merk:</label>
+    <label>1. Pilih Merk:</label>
     <select id="merk">
-        <option value="">-- PILIH --</option>
+        <option value="">-- PILIH MERK --</option>
         <option value="GS ASTRA">GS ASTRA</option>
         <option value="AMARON">AMARON</option>
         <option value="YUASA">YUASA</option>
         <option value="INCOE">INCOE</option>
+        <option value="FASTER">FASTER</option>
         <option value="SOLITE">SOLITE</option>
         <option value="FB">FB</option>
         <option value="JAP">JAP</option>
+        <option value="MOTOBATT">MOTOBATT</option>
+        <option value="QS">QS</option>
+        <option value="MPOWER">MPOWER</option>
     </select>
 
     <label>2. Tipe Aki:</label>
-    <input list="tipe-list" id="tipe" placeholder="NS40, GTZ5S...">
+    <input list="tipe-list" id="tipe" placeholder="NS40, GTZ5S, dll">
     <datalist id="tipe-list">
-        <option value="GTZ5S"> <option value="YTZ5S"> <option value="NS40"> <option value="NS60"> <option value="NS70">
+        <option value="GTZ5S"> <option value="YTZ5S"> <option value="GTZ6V"> <option value="YTZ6V"> 
+        <option value="GTZ7S"> <option value="YTZ7S"> <option value="GM5Z"> <option value="YB5L-B">
+        <option value="NS40"> <option value="NS60"> <option value="N50"> <option value="NS70"> <option value="N100">
     </datalist>
 
-    <label>3. Harga Jual:</label>
+    <label>3. Harga Jual (Rp):</label>
     <input type="number" id="harga" placeholder="0" oninput="update()">
 
-    <label>4. Potongan TT:</label>
+    <label>4. Potongan TT (Rp):</label>
     <input type="number" id="pot" value="0" oninput="update()">
 
     <div class="total-box">
         <span class="total-val" id="totalDisplay">Rp 0</span>
     </div>
 
-    <button onclick="prosesCetak()">PRINT STRUK</button>
+    <button onclick="eksekusiPrint()">PRINT STRUK SEKARANG</button>
 </div>
 
 <div id="print-area"></div>
@@ -73,13 +87,12 @@
         document.getElementById('totalDisplay').innerText = "Rp " + t.toLocaleString('id-ID');
     }
 
-    function formatLine(left, right) {
-        let totalWidth = 30; // Lebar kertas thermal standar
-        let space = totalWidth - left.length - right.length;
-        return left + " ".repeat(Math.max(1, space)) + right;
+    function r(l, r, w = 30) {
+        let s = w - l.length - r.length;
+        return l + " ".repeat(Math.max(1, s)) + r;
     }
 
-    function prosesCetak() {
+    function eksekusiPrint() {
         let m = document.getElementById('merk').value;
         let tp = document.getElementById('tipe').value;
         let h = document.getElementById('harga').value || 0;
@@ -87,34 +100,34 @@
         let total = parseInt(h) - parseInt(p);
         let tgl = new Date().toLocaleDateString('id-ID');
 
-        if (!m || !tp || h == 0) { alert("Data kurang, Bos!"); return; }
+        if (!m || !tp || h == 0) { alert("Data Belum Lengkap!"); return; }
 
         let garansi = (m === "GS ASTRA") ? "1 BULAN" : 
                       (m === "FB" || m === "SOLITE" || m === "JAP") ? "12 BULAN" : "3 BULAN";
 
-        // BIKIN TAMPILAN NOTA (PAKE HURUF STANDAR BIAR PASTI KELUAR)
-        let htmlNota = `
-            <div style="text-align:center; font-weight:bold; font-size:16px;">TRIJAYA ACCU</div>
-            <div style="text-align:center; font-weight:bold; font-size:16px; margin-bottom:5px;">A K K U</div>
-            <div style="text-align:center; font-size:10px;">TUKAR TAMBAH ACCU</div>
-            <div style="text-align:center; font-size:10px; margin-bottom:5px;">WA: 0821-4320-2129</div>
+        // BIKIN TAMPILAN NOTA UNTUK PRINTER
+        let isiNota = `
+            <div style="text-align:center; font-weight:bold; font-size:18px;">TRIJAYA ACCU</div>
+            <div style="text-align:center; font-weight:bold; font-size:18px;">A K K U</div>
+            <div style="text-align:center; font-size:11px;">TUKAR TAMBAH ACCU</div>
+            <div style="text-align:center; font-size:11px;">WA: 0821-4320-2129</div>
             <pre>------------------------------</pre>
-            <pre>${formatLine("Tanggal", tgl)}</pre>
+            <pre>${r("Tanggal", tgl)}</pre>
             <pre>------------------------------</pre>
-            <pre>${formatLine("Merk", m)}</pre>
-            <pre>${formatLine("Tipe", tp)}</pre>
-            <pre>${formatLine("Harga", "Rp " + parseInt(h).toLocaleString('id-ID'))}</pre>
-            <pre>${formatLine("Pot.TT", "-Rp " + parseInt(p).toLocaleString('id-ID'))}</pre>
+            <pre>${r("Merk", m)}</pre>
+            <pre>${r("Tipe", tp)}</pre>
+            <pre>${r("Harga", "Rp " + parseInt(h).toLocaleString('id-ID'))}</pre>
+            <pre>${r("Pot.TT", "-Rp " + parseInt(p).toLocaleString('id-ID'))}</pre>
             <pre>------------------------------</pre>
-            <pre>${formatLine("TOTAL", "Rp " + total.toLocaleString('id-ID'))}</pre>
+            <pre style="font-weight:bold;">${r("TOTAL", "Rp " + total.toLocaleString('id-ID'))}</pre>
             <pre>------------------------------</pre>
-            <pre>${formatLine("Garansi", garansi)}</pre>
+            <pre>${r("Garansi", garansi)}</pre>
             <pre>------------------------------</pre>
-            <div style="text-align:center; margin-top:10px;">*** TERIMA KASIH ***</div>
+            <div style="text-align:center; margin-top:10px; font-weight:bold;">*** TERIMA KASIH ***</div>
         `;
 
-        document.getElementById('print-area').innerHTML = htmlNota;
-        window.print(); // LANGSUNG BUKA MENU CETAK HP
+        document.getElementById('print-area').innerHTML = isiNota;
+        window.print(); // LANGSUNG BUKA MENU PRINT
     }
 </script>
 </body>
