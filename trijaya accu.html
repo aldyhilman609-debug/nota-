@@ -13,52 +13,57 @@
         select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         .total-box { background: #fff1f0; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #ffccc7; }
         .total-val { font-size: 26px; font-weight: bold; color: var(--accent); }
-        button { width: 100%; padding: 16px; background: var(--text); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        button { width: 100%; padding: 16px; background: #333; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        
+        /* CSS UNTUK TAMPILAN PRINT (RAHASIA BIAR RAPI) */
+        #print-area { display: none; font-family: 'Courier New', Courier, monospace; width: 58mm; font-size: 12px; line-height: 1.2; }
+        @media print {
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { display: block; position: absolute; left: 0; top: 0; width: 100%; }
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
     <div class="header">
-        <h2>[ TRIJAYA ACCU ]</h2>
+        <h2>TRIJAYA ACCU</h2>
         <div class="sub">TUKAR TAMBAH ACCU</div>
     </div>
 
-    <label>1. Pilih Merk:</label>
+    <label>1. Merk:</label>
     <select id="merk">
-        <option value="">-- PILIH MERK --</option>
+        <option value="">-- PILIH --</option>
         <option value="GS ASTRA">GS ASTRA</option>
         <option value="AMARON">AMARON</option>
         <option value="YUASA">YUASA</option>
         <option value="INCOE">INCOE</option>
-        <option value="FASTER">FASTER</option>
         <option value="SOLITE">SOLITE</option>
-        <option value="FB">FB (FURUKAWA)</option>
+        <option value="FB">FB</option>
         <option value="JAP">JAP</option>
-        <option value="MOTOBATT">MOTOBATT</option>
-        <option value="QS">QS</option>
-        <option value="MPOWER">MPOWER</option>
     </select>
 
     <label>2. Tipe Aki:</label>
-    <input list="tipe-list" id="tipe" placeholder="Contoh: NS40, GTZ5S">
+    <input list="tipe-list" id="tipe" placeholder="NS40, GTZ5S...">
     <datalist id="tipe-list">
-        <option value="GTZ5S"> <option value="YTZ5S"> <option value="GTZ6V"> <option value="GTZ7S">
-        <option value="GM5Z"> <option value="NS40"> <option value="NS60"> <option value="NS70"> <option value="N100">
+        <option value="GTZ5S"> <option value="YTZ5S"> <option value="NS40"> <option value="NS60"> <option value="NS70">
     </datalist>
 
-    <label>3. Harga Jual (Rp):</label>
-    <input type="number" id="harga" placeholder="0">
+    <label>3. Harga Jual:</label>
+    <input type="number" id="harga" placeholder="0" oninput="update()">
 
-    <label>4. Potongan TT (Rp):</label>
-    <input type="number" id="pot" value="0">
+    <label>4. Potongan TT:</label>
+    <input type="number" id="pot" value="0" oninput="update()">
 
     <div class="total-box">
         <span class="total-val" id="totalDisplay">Rp 0</span>
     </div>
 
-    <button onclick="cetak()">CETAK STRUK</button>
+    <button onclick="prosesCetak()">PRINT STRUK</button>
 </div>
+
+<div id="print-area"></div>
 
 <script>
     function update() {
@@ -67,80 +72,49 @@
         let t = parseInt(h) - parseInt(p);
         document.getElementById('totalDisplay').innerText = "Rp " + t.toLocaleString('id-ID');
     }
-    document.getElementById('harga').addEventListener('input', update);
-    document.getElementById('pot').addEventListener('input', update);
 
-    // === MESIN FORMAT STRUK (32 KARAKTER) ===
-    function formatStruk(label, value, width = 32) {
-        let labelLen = label.length;
-        let valueLen = value.length;
-        let spaceNeeded = width - labelLen - valueLen;
-        
-        // Pastikan space tidak negatif
-        spaceNeeded = Math.max(1, spaceNeeded); 
-        
-        return label + " ".repeat(spaceNeeded) + value;
+    function formatLine(left, right) {
+        let totalWidth = 30; // Lebar kertas thermal standar
+        let space = totalWidth - left.length - right.length;
+        return left + " ".repeat(Math.max(1, space)) + right;
     }
 
-    // Fungsi Tengahkan Teks
-    function center(text, width = 32) {
-        let textLen = text.length;
-        if (textLen >= width) return text;
-        let space = Math.floor((width - textLen) / 2);
-        return " ".repeat(Math.max(0, space)) + text;
-    }
-
-    function cetak() {
-        // Ambil Tanggal Hari Ini (Format: DD/MM/YYYY)
-        let d = new Date();
-        let tglStr = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth()+1).padStart(2, '0') + '/' + d.getFullYear();
-        
+    function prosesCetak() {
         let m = document.getElementById('merk').value;
         let tp = document.getElementById('tipe').value;
         let h = document.getElementById('harga').value || 0;
         let p = document.getElementById('pot').value || 0;
         let total = parseInt(h) - parseInt(p);
+        let tgl = new Date().toLocaleDateString('id-ID');
 
-        if (!m || !tp || h == 0) { alert("Data Belum Lengkap!"); return; }
+        if (!m || !tp || h == 0) { alert("Data kurang, Bos!"); return; }
 
         let garansi = (m === "GS ASTRA") ? "1 BULAN" : 
-                      (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) ? "12 BULAN" : "3 BULAN";
+                      (m === "FB" || m === "SOLITE" || m === "JAP") ? "12 BULAN" : "3 BULAN";
 
-        let garis = "--------------------------";
-        
-        // === JUDUL GAYA ELEPHANT ATAS BAWAH (UNICODE DOUBLE-STRUCK) ===
-        // Tampilannya:
-        // [ 𝕋ℝ𝕀𝕁𝔸𝕎𝔸 ]
-        // [  𝔸ℂℂ𝕌  ]
-        let judul1 = center("[ 𝕋ℝ𝕀𝕁𝔸𝕎𝔸 ]");
-        let judul2 = center("[   𝔸ℂℂ𝕌   ]");
+        // BIKIN TAMPILAN NOTA (PAKE HURUF STANDAR BIAR PASTI KELUAR)
+        let htmlNota = `
+            <div style="text-align:center; font-weight:bold; font-size:16px;">TRIJAYA ACCU</div>
+            <div style="text-align:center; font-weight:bold; font-size:16px; margin-bottom:5px;">A K K U</div>
+            <div style="text-align:center; font-size:10px;">TUKAR TAMBAH ACCU</div>
+            <div style="text-align:center; font-size:10px; margin-bottom:5px;">WA: 0821-4320-2129</div>
+            <pre>------------------------------</pre>
+            <pre>${formatLine("Tanggal", tgl)}</pre>
+            <pre>------------------------------</pre>
+            <pre>${formatLine("Merk", m)}</pre>
+            <pre>${formatLine("Tipe", tp)}</pre>
+            <pre>${formatLine("Harga", "Rp " + parseInt(h).toLocaleString('id-ID'))}</pre>
+            <pre>${formatLine("Pot.TT", "-Rp " + parseInt(p).toLocaleString('id-ID'))}</pre>
+            <pre>------------------------------</pre>
+            <pre>${formatLine("TOTAL", "Rp " + total.toLocaleString('id-ID'))}</pre>
+            <pre>------------------------------</pre>
+            <pre>${formatLine("Garansi", garansi)}</pre>
+            <pre>------------------------------</pre>
+            <div style="text-align:center; margin-top:10px;">*** TERIMA KASIH ***</div>
+        `;
 
-        // === SUSUNAN STRUK FINAL SAMA PERSIS ===
-        let struk = [
-            judul1,
-            judul2,
-            center("TUKAR TAMBAH ACCU"),
-            center("WA: 0821-4320-2129"),
-            garis,
-            formatStruk("Tanggal", tglStr),
-            garis,
-            formatStruk("Merk", m),
-            formatStruk("Tipe", tp),
-            formatStruk("Harga", "Rp " + parseInt(h).toLocaleString('id-ID')),
-            formatStruk("Pot.TT", "-Rp " + parseInt(p).toLocaleString('id-ID')),
-            garis,
-            formatStruk("TOTAL", "Rp " + total.toLocaleString('id-ID')),
-            garis,
-            formatStruk("Garansi", garansi),
-            garis,
-            center("*** TERIMA KASIH ***")
-        ].join("\n");
-
-        if(navigator.share) {
-            navigator.share({ text: struk });
-        } else {
-            alert("Buka lewat Chrome ya!");
-        }
+        document.getElementById('print-area').innerHTML = htmlNota;
+        window.print(); // LANGSUNG BUKA MENU CETAK HP
     }
 </script>
 </body>
