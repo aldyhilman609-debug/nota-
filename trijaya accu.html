@@ -5,133 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KASIR TRIJAYA ACCU</title>
     <style>
-        :root { --bg: #f4f7f6; --text: #222; --accent: #d63031; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); padding: 15px; margin: 0; }
-        .card { background: white; padding: 25px; border-radius: 15px; max-width: 420px; margin: auto; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .header { text-align: center; border-bottom: 3px solid var(--text); padding-bottom: 12px; margin-bottom: 20px; }
-        h2 { margin: 0; font-size: 26px; color: var(--text); font-weight: 900; }
-        label { display: block; margin-top: 15px; font-weight: bold; font-size: 13px; color: #555; }
-        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
-        select:focus, input:focus { border-color: var(--text); }
-        .total-box { background: #fff5f5; padding: 15px; border-radius: 10px; margin-top: 25px; text-align: center; border: 2px dashed #fab1a0; }
-        .total-val { font-size: 32px; font-weight: 900; color: var(--accent); }
-        button { width: 100%; padding: 18px; background: var(--text); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; margin-top: 25px; cursor: pointer; }
-        button:active { transform: scale(0.97); background: #000; }
+        :root { --bg: #f4f7f6; --text: #222; }
+        body { font-family: sans-serif; background: var(--bg); padding: 15px; margin: 0; }
+        .card { background: white; padding: 20px; border-radius: 15px; max-width: 400px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 2px solid var(--text); padding-bottom: 10px; margin-bottom: 20px; }
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .total-box { background: #fff1f0; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #ffccc7; }
+        .total-val { font-size: 28px; font-weight: bold; color: #cf1322; }
+        button { width: 100%; padding: 16px; background: #222; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        
+        /* Area Sembunyi untuk Gambar Struk */
+        #canvas-wrap { display: none; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <div class="header">
-        <h2>TRIJAYA ACCU</h2>
-        <div style="font-size: 11px; font-weight: 800; color: #666; letter-spacing: 1px;">TUKAR TAMBAH ACCU</div>
+        <h2 style="margin:0">TRIJAYA ACCU</h2>
+        <div style="font-size:12px; font-weight:bold;">KASIR NOTA GAMBAR</div>
     </div>
 
-    <label>PILIH MERK</label>
-    <select id="merk" onchange="update()">
-        <option value="">-- PILIH --</option>
+    <label>Merk Aki:</label>
+    <select id="merk">
         <option value="GS ASTRA">GS ASTRA</option>
         <option value="AMARON">AMARON</option>
         <option value="YUASA">YUASA</option>
         <option value="INCOE">INCOE</option>
-        <option value="FASTER">FASTER</option>
         <option value="SOLITE">SOLITE</option>
         <option value="FB">FB</option>
         <option value="JAP">JAP</option>
-        <option value="MOTOBATT">MOTOBATT</option>
-        <option value="QS">QS</option>
-        <option value="ITOBATT">ITOBATT</option>
     </select>
 
-    <label>TIPE AKI (MOBIL/MOTOR)</label>
-    <input list="tipe-list" id="tipe" placeholder="Ketik tipe: NS40ZL, NS60L, dll">
+    <label>Tipe (L/R Lengkap):</label>
+    <input list="tipe-list" id="tipe" placeholder="Contoh: NS40ZL, NS60L">
     <datalist id="tipe-list">
-        <option value="GTZ5S"> <option value="YTZ5S"> <option value="GTZ6V"> <option value="GM5Z">
-        <option value="NS40"> <option value="NS40Z"> <option value="NS40ZL"> <option value="NS40L">
-        <option value="NS60"> <option value="NS60L"> <option value="NS60R"> <option value="NS60LS">
-        <option value="N50"> <option value="N50Z"> <option value="N50ZL">
-        <option value="NS70"> <option value="NS70L"> <option value="N70"> <option value="N70Z">
-        <option value="N100"> <option value="N120"> <option value="N150"> <option value="N200">
+        <option value="NS40ZL"> <option value="NS40L"> <option value="NS60L"> <option value="NS60R"> <option value="GTZ5S">
     </datalist>
 
-    <label>HARGA JUAL (Rp)</label>
-    <input type="number" id="harga" placeholder="0" oninput="update()">
+    <label>Harga Jual:</label>
+    <input type="number" id="harga" placeholder="0">
 
-    <label>POTONGAN TT (Rp)</label>
-    <input type="number" id="pot" value="0" oninput="update()">
+    <label>Potongan TT:</label>
+    <input type="number" id="pot" value="0">
 
     <div class="total-box">
-        <div class="total-val" id="totalDisplay">Rp 0</div>
+        <span class="total-val" id="totalDisplay">Rp 0</span>
     </div>
 
-    <button onclick="shareNota()">CETAK STRUK (SHARE)</button>
+    <button onclick="buatGambarStruk()">BUAT STRUK (GAMBAR)</button>
+</div>
+
+<div id="canvas-wrap">
+    <canvas id="strukCanvas" width="400" height="600"></canvas>
 </div>
 
 <script>
+    // Update total harga
     function update() {
         let h = document.getElementById('harga').value || 0;
         let p = document.getElementById('pot').value || 0;
-        let t = parseInt(h) - parseInt(p);
-        document.getElementById('totalDisplay').innerText = "Rp " + t.toLocaleString('id-ID');
+        document.getElementById('totalDisplay').innerText = "Rp " + (h - p).toLocaleString('id-ID');
     }
+    document.getElementById('harga').oninput = update;
+    document.getElementById('pot').oninput = update;
 
-    function r(label, value, width = 30) {
-        let space = width - label.length - value.length;
-        return label + " ".repeat(Math.max(1, space)) + value;
-    }
+    function buatGambarStruk() {
+        const canvas = document.getElementById('strukCanvas');
+        const ctx = canvas.getContext('2d');
+        const m = document.getElementById('merk').value;
+        const tp = document.getElementById('tipe').value;
+        const h = parseInt(document.getElementById('harga').value) || 0;
+        const p = parseInt(document.getElementById('pot').value) || 0;
+        const total = h - p;
+        const tgl = new Date().toLocaleDateString('id-ID');
 
-    function c(text, width = 30) {
-        let space = Math.floor((width - text.length) / 2);
-        return " ".repeat(Math.max(0, space)) + text;
-    }
+        // Reset Canvas
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
 
-    function shareNota() {
-        let m = document.getElementById('merk').value;
-        let tp = document.getElementById('tipe').value;
-        let h = document.getElementById('harga').value || 0;
-        let p = document.getElementById('pot').value || 0;
-        let total = parseInt(h) - parseInt(p);
-        let d = new Date();
-        let tgl = String(d.getDate()).padStart(2,'0') + "/" + String(d.getMonth()+1).padStart(2,'0') + "/" + d.getFullYear();
+        // === FONT CARTOON OUTLINE (DIGAMBAR MANUAL) ===
+        ctx.font = "900 45px Arial Black"; // Pakai font tebal
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        
+        // Efek Outline: Gambar pinggiran (bolong tengahnya)
+        ctx.strokeText("TRIJAYA", 200, 60);
+        ctx.strokeText("ACCU", 200, 110);
 
-        if (!m || !tp || h == 0) { alert("Data Belum Lengkap!"); return; }
+        // Teks Biasa
+        ctx.font = "bold 20px Arial";
+        ctx.fillText("TUKAR TAMBAH ACCU", 200, 150);
+        ctx.fillText("WA: 0821-4320-2129", 200, 180);
 
-        let garansi = (m === "GS ASTRA") ? "1 BULAN" : 
-                      (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) ? "12 BULAN" : "3 BULAN";
+        ctx.font = "20px Courier New";
+        ctx.fillText("---------------------------", 200, 210);
+        
+        ctx.textAlign = "left";
+        ctx.fillText("Tanggal : " + tgl, 40, 240);
+        ctx.fillText("Merk    : " + m, 40, 270);
+        ctx.fillText("Tipe    : " + tp, 40, 300);
+        ctx.fillText("Harga   : Rp " + h.toLocaleString('id-ID'), 40, 330);
+        ctx.fillText("Pot. TT : -Rp " + p.toLocaleString('id-ID'), 40, 360);
+        
+        ctx.textAlign = "center";
+        ctx.fillText("---------------------------", 200, 390);
+        ctx.font = "bold 25px Arial";
+        ctx.fillText("TOTAL : Rp " + total.toLocaleString('id-ID'), 200, 430);
+        ctx.font = "20px Courier New";
+        ctx.fillText("---------------------------", 200, 460);
+        
+        ctx.fillText("Garansi: " + (m === "GS ASTRA" ? "1 BULAN" : "3 BULAN"), 200, 490);
+        ctx.fillText("---------------------------", 200, 520);
+        ctx.fillText("*** TERIMA KASIH ***", 200, 550);
 
-        let garis = "------------------------------";
-
-        // === FONT CARTOON OUTLINE (SANS OUTLINE STYLE) ===
-        // TRIJAYA = 𝕋 ℝ 𝕀 𝕁 𝔸 𝕐 𝔸
-        // ACCU = 𝔸 ℂ ℂ 𝕌
-        // Ini font kotak garis tepi yang pasti ke-print!
-        let j1 = c("𝕋 ℝ 𝕀 𝕁 𝔸 𝕐 𝔸");
-        let j2 = c("𝔸 ℂ ℂ 𝕌");
-
-        let struk = 
-            j1 + "\n" +
-            j2 + "\n" +
-            c("TUKAR TAMBAH ACCU") + "\n" +
-            c("WA: 0821-4320-2129") + "\n" +
-            garis + "\n" +
-            r("Tanggal", tgl) + "\n" +
-            garis + "\n" +
-            r("Merk", m) + "\n" +
-            r("Tipe", tp) + "\n" +
-            r("Harga", "Rp " + parseInt(h).toLocaleString('id-ID')) + "\n" +
-            r("Pot.TT", "-Rp " + parseInt(p).toLocaleString('id-ID')) + "\n" +
-            garis + "\n" +
-            r("TOTAL", "Rp " + total.toLocaleString('id-ID')) + "\n" +
-            garis + "\n" +
-            r("Garansi", garansi) + "\n" +
-            garis + "\n" +
-            c("*** TERIMA KASIH ***");
-
-        if(navigator.share) {
-            navigator.share({ text: struk });
-        } else {
-            alert("Pakai Chrome di HP Bos!");
-        }
+        // Convert Canvas ke Gambar (Blob) untuk di-Share
+        canvas.toBlob(function(blob) {
+            const file = new File([blob], "struk-trijaya.png", { type: "image/png" });
+            if (navigator.share) {
+                navigator.share({
+                    files: [file],
+                    title: 'Struk Trijaya Accu'
+                });
+            } else {
+                alert("Gunakan Chrome di HP!");
+            }
+        });
     }
 </script>
 </body>
