@@ -6,73 +6,118 @@
 <title>KASIR TRIJAYA ACCU</title>
 
 <style>
-:root { --bg: #f4f7f6; --text: #333; --accent: #cf1322; }
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+:root {
+    --bg: #f4f7f6;
+}
 
 body {
     font-family: sans-serif;
     background: var(--bg);
     padding: 15px;
-    margin: 0;
 }
 
+/* CARD */
 .card {
     background: white;
     padding: 20px;
     border-radius: 12px;
     max-width: 400px;
     margin: auto;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.header {
+/* LOGO OUTLINE */
+.logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
     text-align: center;
-    border-bottom: 2px solid var(--text);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    color: white;
+    -webkit-text-stroke: 2px black;
+    letter-spacing: 3px;
+    background: white;
+    padding: 12px;
+    border-radius: 16px;
+}
+
+/* TEXT */
+.sub {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
 label {
+    margin-top: 10px;
     display: block;
-    margin-top: 15px;
-    font-weight: bold;
-    font-size: 14px;
 }
 
-select, input {
+input, select {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
+    border-radius: 8px;
     margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
 }
 
-.total-box {
-    background: #fff1f0;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 20px;
+/* TOTAL */
+.total {
     text-align: center;
-    border: 1px solid #ffccc7;
+    font-size: 22px;
+    margin-top: 15px;
+    color: red;
 }
 
-.total-val {
-    font-size: 26px;
-    font-weight: bold;
-    color: var(--accent);
-}
-
+/* BUTTON */
 button {
     width: 100%;
-    padding: 16px;
-    background: var(--text);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
+    padding: 15px;
     margin-top: 20px;
-    cursor: pointer;
+    background: black;
+    color: white;
+    border-radius: 10px;
+    border: none;
+}
+
+/* STRUK */
+.struk {
+    display: none;
+    max-width: 300px;
+    margin: auto;
+    background: white;
+    padding: 15px;
+    font-family: monospace;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.line {
+    border-top: 1px dashed black;
+    margin: 5px 0;
+}
+
+.center {
+    text-align: center;
+}
+
+/* PRINT MODE */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #struk, #struk * {
+        visibility: visible;
+    }
+
+    #struk {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
 }
 </style>
 </head>
@@ -80,129 +125,103 @@ button {
 <body>
 
 <div class="card">
-    <div class="header">
-        <h2>TRIJAYA ACCU</h2>
-        <div>TUKAR TAMBAH ACCU</div>
-    </div>
+    <div class="logo">TRIJAYA ACCU</div>
+    <div class="sub">TUKAR TAMBAH ACCU<br>WA: 0821-4320-2129</div>
 
-    <label>1. Pilih Merk:</label>
+    <label>Merk</label>
     <select id="merk">
-        <option value="">-- PILIH MERK --</option>
-        <option value="GS ASTRA">GS ASTRA</option>
-        <option value="AMARON">AMARON</option>
-        <option value="YUASA">YUASA</option>
-        <option value="INCOE">INCOE</option>
-        <option value="FASTER">FASTER</option>
-        <option value="SOLITE">SOLITE</option>
-        <option value="FB">FB (FURUKAWA)</option>
-        <option value="JAP">JAP</option>
-        <option value="MOTOBATT">MOTOBATT</option>
-        <option value="QS">QS</option>
-        <option value="MPOWER">MPOWER</option>
+        <option value="">-- pilih --</option>
+        <option>GS ASTRA</option>
+        <option>AMARON</option>
+        <option>YUASA</option>
     </select>
 
-    <label>2. Tipe Aki:</label>
-    <input list="tipe-list" id="tipe" placeholder="Contoh: NS40, GTZ5S">
-    <datalist id="tipe-list">
-        <option value="GTZ5S"><option value="YTZ5S"><option value="GTZ6V"><option value="YTZ6V">
-        <option value="GTZ7S"><option value="YTZ7S"><option value="GM5Z"><option value="YB5L-B">
-        <option value="MTX5"><option value="MTX7A"><option value="MTX9"><option value="12N10-3B">
-        <option value="NS40"><option value="NS40Z"><option value="NS60"><option value="N50">
-        <option value="NS70"><option value="N70"><option value="N100"><option value="N120">
-    </datalist>
+    <label>Tipe</label>
+    <input id="tipe">
 
-    <label>3. Harga Jual (Rp):</label>
-    <input type="number" id="harga" placeholder="0">
+    <label>Harga</label>
+    <input type="number" id="harga">
 
-    <label>4. Potongan TT (Rp):</label>
+    <label>Potongan</label>
     <input type="number" id="pot" value="0">
 
-    <div class="total-box">
-        <span class="total-val" id="totalDisplay">Rp 0</span>
-    </div>
+    <div class="total" id="total">Rp 0</div>
 
-    <button onclick="cetak()">CETAK STRUK</button>
+    <button onclick="printStruk()">PRINT STRUK</button>
+</div>
+
+<!-- STRUK -->
+<div class="struk" id="struk">
+    <div class="logo">TRIJAYA ACCU</div>
+    <div class="center">TUKAR TAMBAH ACCU<br>WA: 0821-4320-2129</div>
+
+    <div class="line"></div>
+
+    <div class="row"><span>Tanggal</span><span id="tgl"></span></div>
+
+    <div class="line"></div>
+
+    <div class="row"><span>Merk</span><span id="merk_s"></span></div>
+    <div class="row"><span>Tipe</span><span id="tipe_s"></span></div>
+    <div class="row"><span>Harga</span><span id="harga_s"></span></div>
+    <div class="row"><span>Pot.TT</span><span id="pot_s"></span></div>
+
+    <div class="line"></div>
+
+    <div class="row"><b>TOTAL</b><b id="total_s"></b></div>
+
+    <div class="line"></div>
+
+    <div class="row"><span>Garansi</span><span id="garansi"></span></div>
+
+    <div class="line"></div>
+
+    <div class="center">*** TERIMA KASIH ***</div>
 </div>
 
 <script>
-
-// UPDATE TOTAL
 function update() {
     let h = document.getElementById('harga').value || 0;
     let p = document.getElementById('pot').value || 0;
-    let t = parseInt(h) - parseInt(p);
-    document.getElementById('totalDisplay').innerText = "Rp " + t.toLocaleString('id-ID');
-}
-document.getElementById('harga').addEventListener('input', update);
-document.getElementById('pot').addEventListener('input', update);
-
-// FORMAT TENGAH
-function format(text, width = 32) {
-    let isCenter = text.includes("<c>");
-    let cleanText = text.replace("<c>", "");
-    if (isCenter) {
-        let space = Math.floor((width - cleanText.length) / 2);
-        return " ".repeat(Math.max(0, space)) + cleanText;
-    }
-    return cleanText;
+    document.getElementById('total').innerText =
+        "Rp " + (h - p).toLocaleString('id-ID');
 }
 
-// RATA KANAN (KAYAK KASIR)
-function padRight(label, value, width = 32) {
-    let space = width - (label.length + value.length);
-    return label + " ".repeat(Math.max(1, space)) + value;
-}
+document.getElementById('harga').oninput = update;
+document.getElementById('pot').oninput = update;
 
-// CETAK STRUK PRO
-function cetak() {
-    let tgl = new Date().toLocaleString('id-ID');
+function printStruk() {
     let m = document.getElementById('merk').value;
-    let tp = document.getElementById('tipe').value;
+    let t = document.getElementById('tipe').value;
     let h = document.getElementById('harga').value || 0;
     let p = document.getElementById('pot').value || 0;
-    let total = parseInt(h) - parseInt(p);
 
-    if (!m || !tp || h == 0) {
-        alert("Data Belum Lengkap!");
+    if (!m || !t || h == 0) {
+        alert("Isi data dulu!");
         return;
     }
 
-    let garansi = (m === "GS ASTRA") ? "1 BULAN" : 
-                  (m.includes("FB") || m.includes("SOLITE") || m.includes("JAP")) ? "12 BULAN" : "3 BULAN";
+    let total = h - p;
+    let g = (m === "GS ASTRA") ? "1 BULAN" : "3 BULAN";
 
-    let garis = "================================";
+    document.getElementById('tgl').innerText =
+        new Date().toLocaleString('id-ID');
+    document.getElementById('merk_s').innerText = m;
+    document.getElementById('tipe_s').innerText = t;
+    document.getElementById('harga_s').innerText =
+        "Rp " + Number(h).toLocaleString('id-ID');
+    document.getElementById('pot_s').innerText =
+        "-Rp " + Number(p).toLocaleString('id-ID');
+    document.getElementById('total_s').innerText =
+        "Rp " + total.toLocaleString('id-ID');
+    document.getElementById('garansi').innerText = g;
 
-    let struk = [
-        format("<c>T R I J A Y A"),
-        format("<c>A C C U"),
-        format("<c>TUKAR TAMBAH ACCU"),
-        format("<c>WA: 0821-4320-2129"),
-        "",
-        garis,
-        padRight("Tanggal", tgl),
-        garis,
-        padRight("Merk", m),
-        padRight("Tipe", tp),
-        padRight("Harga", "Rp " + parseInt(h).toLocaleString('id-ID')),
-        padRight("Pot.TT", "-Rp " + parseInt(p).toLocaleString('id-ID')),
-        "--------------------------------",
-        padRight("TOTAL", "Rp " + total.toLocaleString('id-ID')),
-        garis,
-        padRight("Garansi", garansi),
-        garis,
-        "",
-        format("<c>*** TERIMA KASIH ***"),
-        format("<c>SILAHKAN DATANG KEMBALI"),
-        garis
-    ].join("\n");
+    document.getElementById('struk').style.display = "block";
 
-    if (navigator.share) {
-        navigator.share({ text: struk });
-    } else {
-        alert("Buka lewat Chrome ya!");
-    }
+    setTimeout(() => {
+        window.print();
+    }, 300);
 }
-
 </script>
 
 </body>
