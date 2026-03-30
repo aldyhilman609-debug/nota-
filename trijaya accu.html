@@ -8,7 +8,11 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
-:root { --bg: #f4f7f6; --text: #333; --accent: #cf1322; }
+:root {
+    --bg: #f4f7f6;
+    --text: #333;
+    --accent: #cf1322;
+}
 
 body {
     font-family: sans-serif;
@@ -17,7 +21,7 @@ body {
     margin: 0;
 }
 
-/* CARD */
+/* CARD INPUT */
 .card {
     background: white;
     padding: 20px;
@@ -27,26 +31,35 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* LOGO OUTLINE (WEB DOANG 🔥) */
+/* LOGO ATAS */
 .logo {
     font-family: 'Anton', sans-serif;
-    font-size: 30px;
+    font-size: 32px;
     text-align: center;
     color: white;
-
     -webkit-text-stroke: 2px black;
     letter-spacing: 3px;
-
     background: white;
     padding: 12px;
-    border-radius: 16px; /* SUDUT TUMPUL */
+    border-radius: 16px;
     margin-bottom: 5px;
 }
 
+/* LOGO STRUK (ELEPHANT) */
+.struk-logo {
+    font-family: 'Elephant', serif;
+    font-size: 28px;
+    text-align: center;
+    line-height: 1.1;
+    letter-spacing: 2px;
+    color: black;
+}
+
+/* SUB HEADER */
 .sub {
     text-align: center;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 /* FORM */
@@ -83,7 +96,7 @@ select, input {
 button {
     width: 100%;
     padding: 16px;
-    background: var(--text);
+    background: black;
     color: white;
     border: none;
     border-radius: 10px;
@@ -91,13 +104,37 @@ button {
     font-size: 18px;
     cursor: pointer;
 }
+
+/* STRUK VISUAL */
+.struk {
+    display: none;
+    max-width: 320px;
+    margin: 20px auto;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    font-family: monospace;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.center { text-align: center; }
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.line {
+    border-top: 1px dashed #000;
+    margin: 8px 0;
+}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-    <!-- HEADER WEB KEREN -->
+
     <div class="logo">TRIJAYA ACCU</div>
     <div class="sub">TUKAR TAMBAH ACCU<br>WA: 0821-4320-2129</div>
 
@@ -122,35 +159,59 @@ button {
         <span class="total-val" id="total">Rp 0</span>
     </div>
 
-    <button onclick="cetak()">CETAK STRUK</button>
+    <button onclick="buatStruk()">LIHAT STRUK</button>
+</div>
+
+
+<!-- STRUK -->
+<div class="struk" id="struk">
+
+    <!-- LOGO STRUK FIX -->
+    <div class="struk-logo">
+        TRIJAYA<br>ACCU
+    </div>
+
+    <div class="center">TUKAR TAMBAH ACCU<br>WA: 0821-4320-2129</div>
+
+    <div class="line"></div>
+
+    <div class="row"><span>Tanggal</span><span id="s_tgl"></span></div>
+
+    <div class="line"></div>
+
+    <div class="row"><span>Merk</span><span id="s_merk"></span></div>
+    <div class="row"><span>Tipe</span><span id="s_tipe"></span></div>
+    <div class="row"><span>Harga</span><span id="s_harga"></span></div>
+    <div class="row"><span>Pot.TT</span><span id="s_pot"></span></div>
+
+    <div class="line"></div>
+
+    <div class="row" style="font-weight:bold;">
+        <span>TOTAL</span><span id="s_total"></span>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="row"><span>Garansi</span><span id="s_garansi"></span></div>
+
+    <div class="line"></div>
+
+    <div class="center">*** TERIMA KASIH ***</div>
+
 </div>
 
 <script>
-// UPDATE TOTAL
 function update() {
     let h = document.getElementById('harga').value || 0;
     let p = document.getElementById('pot').value || 0;
     let t = h - p;
-    document.getElementById('total').innerText =
-        "Rp " + t.toLocaleString('id-ID');
-}
-document.getElementById('harga').oninput = update;
-document.getElementById('pot').oninput = update;
-
-// FORMAT TENGAH
-function format(text, width = 32) {
-    let isCenter = text.includes("<c>");
-    let cleanText = text.replace("<c>", "");
-    if (isCenter) {
-        let space = Math.floor((width - cleanText.length) / 2);
-        return " ".repeat(Math.max(0, space)) + cleanText;
-    }
-    return cleanText;
+    document.getElementById('total').innerText = "Rp " + t.toLocaleString('id-ID');
 }
 
-// CETAK STRUK (BALIK KE TEXT)
-function cetak() {
-    let tgl = new Date().toLocaleString('id-ID');
+document.getElementById('harga').addEventListener('input', update);
+document.getElementById('pot').addEventListener('input', update);
+
+function buatStruk() {
     let m = document.getElementById('merk').value;
     let tp = document.getElementById('tipe').value;
     let h = document.getElementById('harga').value || 0;
@@ -158,37 +219,21 @@ function cetak() {
     let total = h - p;
 
     if (!m || !tp || h == 0) {
-        alert("Data belum lengkap!");
+        alert("Isi dulu datanya!");
         return;
     }
 
-    let garis = "================================";
+    let garansi = (m === "GS ASTRA") ? "1 BULAN" : "3 BULAN";
 
-    let struk = [
-        format("<c>T R I J A Y A"),
-        format("<c>A C C U"),
-        format("<c>TUKAR TAMBAH ACCU"),
-        format("<c>WA: 0821-4320-2129"),
-        "",
-        garis,
-        "Tanggal : " + tgl,
-        garis,
-        "Merk    : " + m,
-        "Tipe    : " + tp,
-        "Harga   : Rp " + Number(h).toLocaleString('id-ID'),
-        "Pot.TT  : -Rp " + Number(p).toLocaleString('id-ID'),
-        garis,
-        "TOTAL   : Rp " + total.toLocaleString('id-ID'),
-        garis,
-        format("<c>*** TERIMA KASIH ***"),
-        garis
-    ].join("\n");
+    document.getElementById('s_tgl').innerText = new Date().toLocaleString('id-ID');
+    document.getElementById('s_merk').innerText = m;
+    document.getElementById('s_tipe').innerText = tp;
+    document.getElementById('s_harga').innerText = "Rp " + Number(h).toLocaleString('id-ID');
+    document.getElementById('s_pot').innerText = "-Rp " + Number(p).toLocaleString('id-ID');
+    document.getElementById('s_total').innerText = "Rp " + total.toLocaleString('id-ID');
+    document.getElementById('s_garansi').innerText = garansi;
 
-    if (navigator.share) {
-        navigator.share({ text: struk });
-    } else {
-        alert(struk);
-    }
+    document.getElementById('struk').style.display = "block";
 }
 </script>
 
